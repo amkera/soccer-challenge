@@ -1,11 +1,10 @@
 let fs = require("fs")
 
 module.exports = function readData() {
-  fs.readFile(__dirname + "/input.txt", "utf-8", (err, data) => {
-    if (err) {
-      throw err
-    }
-    console.log(data)
+  try {
+    const data = fs.readFileSync(__dirname + "/input.txt").toString("utf-8")
     return data
-  })
+  } catch (error) {
+    console.error(error)
+  }
 }

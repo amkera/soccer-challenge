@@ -1,8 +1,10 @@
 const readData = require("./readData")
+let fs = require("fs")
 
 /**
  * String manipulation using regex to extract team names into an array
  */
+
 const parseTeamNames = () => {
   const data = readData()
   const noNumbers = data.replace(/ [0-9]/g, "") //Remove space number
@@ -50,30 +52,39 @@ const transformData = () => {
   return finalArray
 }
 
-const calculate = () => {
-  let teamPoints = startingScores
-  const teamScores = transformData().slice(6, 12)
-
-  for (let i = 0; i < teamScores.length; i += 2) {
-    if (Object.values(teamScores[i])[0] > Object.values(teamScores[i + 1])[0]) {
-      console.log((teamPoints[Object.keys(teamScores[i])[0]] += 3))
-      console.log((teamPoints[Object.keys(teamScores[i + 1])[0]] += 0))
-    } else if (
-      Object.values(teamScores[i])[0] === Object.values(teamScores[i + 1])[0]
-    ) {
-      //tie: 1 point to each team
-      console.log((teamPoints[Object.keys(teamScores[i])[0]] += 1))
-      console.log((teamPoints[Object.keys(teamScores[i + 1])[0]] += 1))
-    } else {
-      console.log((teamPoints[Object.keys(teamScores[i])[0]] += 0))
-      console.log((teamPoints[Object.keys(teamScores[i + 1])[0]] += 3))
-    }
-  }
-  return teamPoints
-}
-
-calculate()
-
 module.exports = function calculateScores() {
   parseTeamNames, countTeams, countGames, calculateMatchDays
 }
+
+const calculate = () => {
+  let cumulativeScores = startingScores //0s all the way
+
+  const teamScores = transformData()
+
+  let file = fs.createWriteStream(__dirname + "/rawOutput.txt")
+
+  for (let i = 0; i < teamScores.length; i += 6) {
+    for (let j = i; j < i + 6; j += 2) {
+      if (
+        Object.values(teamScores[j])[0] > Object.values(teamScores[j + 1])[0]
+      ) {
+        cumulativeScores[Object.keys(teamScores[j])[0]] += 3
+        cumulativeScores[Object.keys(teamScores[j + 1])[0]] += 0
+      } else if (
+        Object.values(teamScores[j])[0] === Object.values(teamScores[j + 1])[0]
+      ) {
+        cumulativeScores[Object.keys(teamScores[j])[0]] += 1
+        cumulativeScores[Object.keys(teamScores[j + 1])[0]] += 1
+      } else {
+        cumulativeScores[Object.keys(teamScores[j])[0]] += 0
+        cumulativeScores[Object.keys(teamScores[j + 1])[0]] += 3
+      }
+    }
+
+    // file.write(JSON.stringify(cumulativeScores))
+    getTopValues(cumulativeScores, 3)
+  }
+  // file.close()
+}
+
+calculate()

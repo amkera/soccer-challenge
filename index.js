@@ -1,5 +1,4 @@
 const minimist = require("minimist")
-const calculateScores = require("./src/calculateScores")
 
 module.exports = () => {
   const args = minimist(process.argv.slice(2))

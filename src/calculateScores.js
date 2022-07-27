@@ -39,10 +39,9 @@ const calculate = () => {
       `\n${formatObjectToString(getTopValues(cumulativeScores, 3))}\n`
     )
   }
+  return cumulativeScores
 }
 
-calculate()
-
-module.exports = function calculateScores() {
-  calculate
+module.exports = {
+  calculate,
 }

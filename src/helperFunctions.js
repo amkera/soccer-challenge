@@ -5,9 +5,16 @@ const readData = require("./readData")
  */
 const parseTeamNames = () => {
   const data = readData()
-  const noNumbers = data.replace(/ [0-9]/g, "") //Remove space number
-  const noNewLines = noNumbers.replace(/\n/g, ",") //Replace newline with comma
-  const noLeadingSpaces = noNewLines.replace(/, /g, ",") //Remove leading spaces
+
+  //Remove space number
+  const noNumbers = data.replace(/ [0-9]/g, "")
+
+  //Replace newline with comma
+  const noNewLines = noNumbers.replace(/\n/g, ",")
+
+  //Remove leading spaces
+  const noLeadingSpaces = noNewLines.replace(/, /g, ",")
+
   const arr = noLeadingSpaces.split(",")
   const uniqueTeams = [...new Set(arr)]
   return uniqueTeams
@@ -29,6 +36,10 @@ const getTopValues = (scoresAfterEachRound, numberOfScoresDesired) => {
   const scoresArray = Object.entries(scoresAfterEachRound).sort(
     (a, b) => b[1] - a[1]
   )
+  if (numberOfScoresDesired >= scoresArray.length) {
+    return Object.fromEntries(scoresArray)
+  }
+
   const topScores = scoresArray.slice(0, numberOfScoresDesired)
 
   return Object.fromEntries(topScores)
@@ -66,6 +77,7 @@ const formatObjectToString = (scoresObject) => {
 
   //replace colons with a space
   const removeColons = removeQuotesBraces.replace(/:/g, ", ")
+
   return removeColons
 }
 

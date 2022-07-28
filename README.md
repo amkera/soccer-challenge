@@ -16,6 +16,8 @@ Type `soccer` into the command line prompt to view the menu.
 
 This application consists of two main files, `helperFunctions.js` and `calculateScores.js`
 
+Each function is a discrete unit of code that accomplishes a single task, modeling principles of functional programming. Additionally, unit testing is much easier this way, since the functions have a 1-1 relationship to their tests.
+
 ### helperFunctions.js
 
 `helperFunctions.js` contains small helper functions that assist in the calculation of the scores.
@@ -55,6 +57,10 @@ After each iteration of the inner loop, which can be equated to a match day, the
 ## Tests
 
 Run `npm test` to run the test suites.
+
+## Further Improvements
+
+While this accomplishes the task, an improvement would be a test data generator that can rapidly create more test data to increase the fidelity of the tests. Another improvement could be the extraction of the regex functions to a separate file. To make this application more dynamic, relying less on hard coded solutions, parts of the code could be abstracted or refactored to accept additional types of data, or data files in different formats.
 
 ### Initial Configuration Notes
 
